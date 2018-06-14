@@ -1,5 +1,5 @@
 #check whether the user's input is valid or not
-welcome = '''welcome to the madlibs game. 
+welcome = '''welcome to the madlibs game.
 Please select a game difficulty by typing it in Possible choices include easy, medium, and hard.'''
 valid = ["easy", "medium", "hard"]
 #user answer of choice of difficulty
@@ -25,6 +25,7 @@ __1__ takes by adding __2__ separated by commas between the parentheses.
 __1__s by default returns __3__ if you don't specify the value to retrun.
 __2__ can be standard data types such as string, integer, dictionary, tuple,
 and __4__ or can be more complicated such as objects and lambda functions.'''
+
 hard_quiz = '''When you create a __1__, certain __2__s are automatically
 generated for you if you don't make them manually. These contain multiple
 underscores before and after the word defining them.  When you write
@@ -41,38 +42,41 @@ __9__, and __10__ allow __4__s of the __1__ to be compared
 easy_quiz_answer = ["world",  "python", "print", "html"]
 medium_quiz_answer = ["function", "argument", "None", "list"]
 hard_quiz_answer = ["class","method", "__init__", "instance", "__repr__", "__add__", "__sub__", "__lt__", "__gt__", "__eq__"]
-quiz_answer = [easy_quiz_answer, medium_quiz_answer,hard_quiz_answer]
 #prompt user to chose level, repeat till user chose one
-def start_game():
-    while True:
-        user_input = raw_input(welcome +"\n")
-        if user_input == "easy":
-            print "You've chosen " + user_input + "!"
-            play_easy(easy_quiz, easy_quiz_answer, 5)
 
-def play_easy(quiz, ans, total_cnt):
+def start_game():
+    user_input = raw_input(welcome +"\n")            
+
+    while user_input not in 'easy medium hard'.split():
+        user_input = raw_input(warn +"\n")
+
+    print "You've chosen " + user_input + "!"
+
+    if user_input == "easy":
+        play_game(easy_quiz, easy_quiz_answer, 5)
+    elif user_input == "medium":
+        play_game(medium_quiz, medium_quiz_answer, 4)
+    elif user_input == "hard":
+        play_game(hard_quiz, hard_quiz_answer, 3)
+
+def play_game(quiz, quiz_answers, max_tries):
     print "The current paragraph reads as such:\n" + quiz
-    total_cnt = 5
-    print "You will get " + str(total_cnt) + " guesses per problem"
+    print "You will get " + str(max_tries) + " guesses per problem"
     index = 0
-    while index < len(blank):
+    while index < len(quiz_answers):
         err_cnt = 0
         while True:
             ans = raw_input("What should be substituted in for " + blank[index] +"?\n") 
-            if ans == ans[index]:
+            if ans == quiz_answers[index]:
                 print " Correct!"
                 index += 1
                 break    
             else:
                 err_cnt += 1                
-                if total_cnt == err_cnt:
+                if max_tries == err_cnt:
                     print "You failed. Game over!"
                     return
-                print "That isn't the correct answer!  Let's try again; you have " + str(total_cnt - err_cnt) + " trys left!"
+                print "That isn't the correct answer!  Let's try again; you have " + str(max_tries - err_cnt) + " trys left!"
     print "You won!"
 
-
-
 start_game()
-
-
