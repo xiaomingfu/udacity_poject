@@ -69,6 +69,8 @@ def play_game(quiz, quiz_answers, max_tries):
             ans = raw_input("What should be substituted in for " + blank[index] +"?\n") 
             if ans == quiz_answers[index]:
                 print " Correct!"
+                quiz = quiz.replace(blank[index],ans)
+                print quiz
                 index += 1
                 break    
             else:
